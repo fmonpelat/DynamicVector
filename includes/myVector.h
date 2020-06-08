@@ -11,11 +11,11 @@ class myVector
 {
     private:
         int size,maxsize;
-        int *array;
+        T *array;
     public:
         myVector();
         myVector(int );
-        myVector(const myVector & );
+        myVector(const myVector<T> & );
         ~myVector();
         void resize(int );
         int getsize();
@@ -41,7 +41,7 @@ myVector<T>::myVector(int size)
 }
 
 template<typename T>
-myVector<T>::myVector(const myVector & vec)
+myVector<T>::myVector(const myVector<T> & vec)
 {
 }
 
@@ -68,16 +68,16 @@ bool myVector<T>::operator!=(myVector<T> a)
 template<typename T>
 T & myVector<T>::operator[](int index)
 {
-  if ((index - 1) > this->maxsize) {
+  if ((index - 1) >= this->maxsize) {
     resize(index + 1);
   }
   return this->array[index]; // returned as a reference
 }
-
+/*
 template<typename T>
 void myVector<T>::resize(int newSize)
 {
-  int *temp;
+  T *temp;
   temp = new T [newSize];
   for (int i = 0; i < (newSize); i++) {
      temp[i] = this->array[i];
@@ -86,6 +86,27 @@ void myVector<T>::resize(int newSize)
   this->array = temp;
   this->maxsize = newSize;
 }
+*/
+
+template<typename T>
+void myVector<T>::resize(int newSize)
+{
+  T *temp;
+  temp = new T [newSize];
+
+  if(newSize >= this->maxsize){
+    for (int i = 0; i < this->maxsize; i++) 
+      temp[i] = this->array[i]; 
+  }
+  else{
+    for (int i = 0; i < newSize; i++) 
+      temp[i] = this->array[i];
+  }
+  delete[] this->array;
+  this->array = temp;
+  this->maxsize = newSize;
+  }
+
 
 template<typename T>
 int myVector<T>::getsize()
