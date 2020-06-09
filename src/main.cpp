@@ -22,22 +22,24 @@ int main(int argc, const char** argv)
     {
         cout << MyVec[i] <<" ";
     }
-    cout <<  endl;
+    cout << "\n" << endl;
     /* Another test, test matrix with operator [][] */
-   myVector<myVector<int> > Matrix;
+    myVector<myVector<int> > Matrix;
     
+//    cout<<"\nRESIZE DE LA COLUMNA\n" <<endl;
     Matrix.resize(4);
-    
 //    cout << Matrix.getsize() << endl;
     int colsize = Matrix.getsize();
 
-   cout << colsize << endl;
+//   cout << "Filas: " << colsize << endl;
 
     for(int i = 0; i < colsize; i++){
-//        cout<<"hola2"<<endl;
+//        cout<<"\nRESIZE DE LA FILA " << i << "\n" <<endl;
         Matrix[i].resize(10);
+//        cout<<"Fuera de resize fil " << i <<endl;
         int filsize = Matrix[i].getsize();
-         for(int j=0; j < filsize; j++){
+        
+        for(int j=0; j < filsize; j++){
 //             cout<<"hola3 ";
             Matrix[i][j]=j;
             cout << Matrix[i][j] << " ";
@@ -45,24 +47,43 @@ int main(int argc, const char** argv)
          }cout << endl;
      }
 
-myVector<myVector<int> > matrix2;
-   matrix2.resize(5);
+    cout << endl;
 
-   int colsize2 = matrix2.getsize();
+    myVector<myVector<int> > Matriz;
+    
+//    cout<<"\nRESIZE DE LA COLUMNA\n" <<endl;
+    Matriz.resize(5);
 
-   cout << colsize2 << "hola5" << endl;
+    int colsize2 = Matriz.getsize();
 
-    for (size_t i = 0; i < colsize2; i++)
-    { matrix2[i].resize(2);
-    int filsize2 = matrix2.getsize();
-        for(size_t j=0; i< filsize2; j++){
-        matrix2[i][j]=2;
-        cout << matrix2[i][j] << " ";}
+//    cout << colsize2 << endl;
+    
+//    matrix2[0].resize(6);cout<<"chau"<<endl;
+//    int filsize3 = matrix2[0].getsize();
+//    cout << filsize3 << endl;
+    
+    for (int i = 0; i < colsize2; i++){
+//        cout<<"\nRESIZE DE LA FILA " << i << "\n" <<endl;
+        Matriz[i].resize(6);
+//        cout<<"Fuera de resize fil " << i <<endl;
+        int filsize2 = Matriz[i].getsize();
+        
+        for(int j=0; j< filsize2; j++){
+            Matriz[i][j]=2;
+            cout << Matriz[i][j] << " ";
+        }cout << endl;
     }
     
-    //Matrix[0][0]=1;
+    myVector<myVector<int> > Matrix3;
 
+    Matrix3.resize(3);
+    int colsize3 = Matrix3.getsize();
+    for (size_t i = 0; i < colsize3; i++)
+    {
+        Matrix3[i].resize(3);
+    }
 
+    Matrix[0][0]=1;
 
     return 0;
 }
