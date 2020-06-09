@@ -1,6 +1,30 @@
 #ifndef _MYVECTOR_H_INCLUDED_
 #define _MYVECTOR_H_INCLUDED_
 
+/*
+MIT License
+
+Copyright (c) 2020
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
 #include <iostream>
 #include <string.h>
 #include <stdio.h>
@@ -21,12 +45,14 @@ class myVector
         ~myVector();
         void resize(int );
         int getsize();
+        void print();
         T &operator[](int );
         bool operator==(myVector<T>);
         bool operator!=(myVector<T>);
         myVector<T> &operator=(const myVector<T> &);
 };
 
+// Constructors
 template<typename T>
 myVector<T>::myVector()
 {
@@ -35,10 +61,7 @@ myVector<T>::myVector()
     this->size = 0;
 
     for (int i = 0; i < this->maxsize; i++) 
-      this->array[i] = 0; 
-
-//  cout <<"Constructor sin Argumentos"<< endl;
-
+      this->array[i] = 0;
 }
 
 template<typename T>
@@ -47,79 +70,85 @@ myVector<T>::myVector(int size)
     this->maxsize = size;
     this->array = new T[this->maxsize];
     this->size = 0;
-
-//      cout <<"Constructor por tamaño - size: "<< this->maxsize <<  endl;
-//      cout << "     LLamado a: ";
 }
 
 template<typename T>
 myVector<T>::myVector(const myVector<T> & vec)
 {
-//        cout <<"Constructor por vector"<< endl;
 }
 
 template<typename T>
+myVector<T>::~myVector()
+{
+  delete [] this->array;
+}
+
+// Operators overload
+template<typename T>
 bool myVector<T>::operator==(myVector<T> a)
 {
-  if (a.maxsize != this->maxsize) return false;
+  if (a.maxsize != this->maxsize)
+    return false;
 
-  for (int i = 0; i < (a.maxsize); i++) {
-    if (a[i] != this->array[i]) return false;
+  for (int i = 0; i < (a.maxsize); i++)
+  {
+    if (a[i] != this->array[i])
+      return false;
   }
 }
 
 template<typename T>
 bool myVector<T>::operator!=(myVector<T> a)
 {
-  if (a.maxsize != this->maxsize) return true;
+  if (a.maxsize != this->maxsize)
+    return true;
 
-  for (int i = 0; i < (a.maxsize); i++) {
-    if (a[i] != this->array[i]) return true;
+  for (int i = 0; i < (a.maxsize); i++)
+  {
+    if (a[i] != this->array[i])
+      return true;
   }
 }
 
 template <typename T>
-myVector<T> &myVector<T>::operator=(const myVector<T> &rigth){
+myVector<T> &myVector<T>::operator=(const myVector<T> &rigth)
+{
+	if(&rigth != this)
+  { /* Chequea que la dirección del objeto pasado (ejemplo Array B)
+	 	   sea distinta de la direccion del objeto (ejemplo Array A)
+	 	 	 sobre el que se ejecuta el código
+    */
+		if(this->size != rigth.maxsize)
+    {
+      // Si el tamaño del Array A es distinto del Array B
+      this->resize(rigth.maxsize);
 
-	if(&rigth != this){ /*Chequea que la dirección del objeto pasado (ejemplo Array B)
-	 	 	 	 	 	 sea distinta de la direccion del objeto (ejemplo Array A)
-	 	 	 	 	 	 sobre el que se ejecuta el código.*/
-		if(size != rigth.maxsize){//Si el tamaño del Array A es distinto del Array B
+			for(int i = 0; i < this->maxsize; i++)
+				this->array[i] = rigth.array[i]; // Asigno los valores del Array B al Array A posicion por posicion
 
-			T *aux;
-			aux = new T[rigth.maxsize];//Pido memoria del tamaño de Array B
-			delete [] array;//Libero la memoria del Array A
-			maxsize = rigth.maxsize;//Asigno el tamaño del Array B al Array A
-			array = aux;//Asigno la memoria pedida al Array A
-
-			for(int i = 0; i < maxsize; i++)
-				array[i] = rigth.array[i];//Asigno los valores del Array B al Array A posicion por posicion
-
-			return *this;//Devuelvo el objeto sobre el que se trabajo (Array A)
+			return *this; // Devuelvo el objeto sobre el que se trabajo (Array A)
 		}
-		else{
-
+		else
+    {
 			for(int i = 0; i < maxsize; i++)
-				array[i] = rigth.array[i];//Asigno los valores del Array B al Array A posicion por posicion
+				array[i] = rigth.array[i]; // Asigno los valores del Array B al Array A posicion por posicion
 
-			return *this; //al retotrnar una referencia permite x=y=z
+			return *this; // al retornar una referencia permite x=y=z
 		}
 	}
-	return *this;//Devuelvo el objeto sobre el que se trabajo (Array A)
+	return *this; //Devuelvo el objeto sobre el que se trabajo (Array A)
 }
 
 
 template<typename T>
 T & myVector<T>::operator[](int index)
 {
-  if ((index - 1) >= this->maxsize) {
-    //cout << "     LLamado a: ";
+  if ((index - 1) >= this->maxsize)
+  {
     resize(index + 1);
   }
-
   this->size=index;
-
-  return this->array[index]; // returned as a reference
+  return this->array[index];
 }
 
 template<typename T>
@@ -135,50 +164,6 @@ void myVector<T>::resize(int newSize)
   this->maxsize = newSize;
 }
 
-/*
-template<typename T>
-void myVector<T>::resize(int newSize)
-{
-  
-  cout << "in-resize" << endl;
-
-  cout << "   Actual-vec-size: "<< this->maxsize << endl;
-
-  T *temp;
-  cout << "     LLamado a:\n"; //Constructor sin argumentos
-  temp = new T [newSize];
-
-//  for (int i = 0; i < newSize; i++){
-//    cout << "     LLamado a: "; //Constructor por tamaño
-//      temp[i](newSize);
-//  }
-
-  if(newSize > this->maxsize){
-    cout << "     maxsize: " << this->maxsize << endl;
-    cout << "     size: " << this->size << endl;
-    for (int i = 0; i < maxsize; i++) {
-      cout << "     Copiando direccónes de filas" << endl;
-      temp[i] = this->array[i];
-    }
-  }
-  else{
-    for (int i = 0; i < newSize; i++){cout << "     aca2" << endl;
-      temp[i] = this->array[i];
-      }
-      this->size=newSize;
-  }
-  cout << "     LLamado a: "; //Destructor
-  delete[] this->array;
-  this->array = temp;
-  this->maxsize = newSize;
-
-  cout << "   New-vec-size: "<< this->maxsize << endl;
-
-  cout << "out-resize" << endl;
-
-}
-*/
-
 template<typename T>
 int myVector<T>::getsize()
 {
@@ -186,11 +171,16 @@ int myVector<T>::getsize()
 }
 
 template<typename T>
-myVector<T>::~myVector()
+void myVector<T>::print()
 {
-  delete [] array;
-
-//    cout<<"Destructor"<<endl;
+    cout << "[ ";
+    for (size_t i = 0; i < this->maxsize; i++)
+    {
+        cout << this->array[i] << " ";
+        if(i!=(this->maxsize-1))
+          cout << ", ";
+    }
+    cout << " ]";
 }
 
 
