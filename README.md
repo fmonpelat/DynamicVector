@@ -1,2 +1,2 @@
 # DynamicVector
-Minimal implementation of dynamic array in c++ (also matrix)
+Minimal implementation of a dynamic array in c++ (also example to create a dynamic matrix)
